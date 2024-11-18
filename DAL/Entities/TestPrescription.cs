@@ -2,7 +2,7 @@
 
 public class TestPrescription : BaseEntity
 {
-    // Дата створення запису
+   // Дата створення запису
     public DateTime RecordDate { get; set; }
 
     // Зв'язок із медичним записом

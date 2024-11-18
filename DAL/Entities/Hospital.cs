@@ -8,7 +8,7 @@ public class Hospital : BaseEntity
     public string PhoneNumber { get; set; }
 
     // Зв’язок з Address
-    public int AddressId { get; set; }
+    public Guid AddressId { get; set; }
     public Address Address { get; set; }
 
     // Колекція підрозділів лікарні

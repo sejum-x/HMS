@@ -2,7 +2,6 @@
 
 public class ReferralPrescription : BaseEntity
 {
-
     // Дата створення запису
     public DateTime RecordDate { get; set; }
 

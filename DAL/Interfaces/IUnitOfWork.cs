@@ -1,8 +1,22 @@
-﻿namespace DAL.Interfaces;
+﻿using DAL.Repositories;
 
-public interface IUnitOfWork
+namespace DAL.Interfaces;
+
+public interface IUnitOfWork : IDisposable
 {
-    ICustomerRepository CustomerRepository { get; }
-    
-    Task SaveAsync();
+    IUserRepository Users { get; }
+    IDoctorRepository Doctors { get; }
+    IPatientRepository Patients { get; }
+    IMedicalBookRepository MedicalBooks { get; }
+    IMedicalRecordRepository MedicalRecords { get; }
+    IDiagnosisRepository Diagnoses { get; }
+    ITreatmentPrescriptionRepository TreatmentPrescriptions { get; }
+    ITreatmentRepository Treatments { get; }
+    IMedicineRepository Medicines { get; }
+    IDoctorSpecializationRepository DoctorSpecializations { get; }
+    IDoctorWorkHistoryRepository DoctorWorkHistories { get; }
+    IRoomRepository Rooms { get; }
+    IDepartmentRepository Departments { get; }
+
+    Task<int> SaveChangesAsync();
 }

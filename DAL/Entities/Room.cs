@@ -2,7 +2,7 @@
 
 public class Room : BaseEntity
 {
-    public int RoomNumber { get; set; }
+   public int RoomNumber { get; set; }
     public Guid DepartmentId { get; set; }
     public Department Department { get; set; }
     public Guid RoomTypeId { get; set; }

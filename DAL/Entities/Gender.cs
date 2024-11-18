@@ -2,6 +2,6 @@
 
 public class Gender : BaseEntity
 {
-    public string Name { get; set; } // Наприклад, "Male", "Female", "Other"
+    public string Name { get; set; } 
     public ICollection<User> Users { get; set; } = new List<User>();
 }

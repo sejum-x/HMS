@@ -2,7 +2,7 @@
 
 public class Doctor : BaseEntity
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; }
    
     public ICollection<MedicalRecord> MedicalRecords { get; set; }

@@ -7,5 +7,5 @@ public class MedicalBook : BaseEntity
     public Guid PatientId { get; set; } // Зв’язок із пацієнтом
     public Patient Patient { get; set; }
 
-    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>(); // Медичні записи
+    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
 }

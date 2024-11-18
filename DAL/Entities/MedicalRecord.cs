@@ -2,7 +2,6 @@
 {
     public class MedicalRecord : BaseEntity
     {
-        // Зв’язок з медичною книгою
         public Guid MedicalBookId { get; set; }
         public MedicalBook MedicalBook { get; set; }
 

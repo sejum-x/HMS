@@ -1,8 +1,23 @@
-﻿using DAL.Entities;
+﻿using DAL.Configuration;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 public class HMSDbContext : DbContext
 {
+    private readonly IConfiguration _configuration;
+
+    public HMSDbContext(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+    
+    protected  override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("HMSDbContext"));
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Department> Departments { get; set; }
@@ -33,4 +48,42 @@ public class HMSDbContext : DbContext
     public DbSet<Country> Countries { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<City> Cities { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+
+        modelBuilder.ApplyConfiguration(new AddressConfiguration());
+        modelBuilder.ApplyConfiguration(new AwardConfiguration());
+        modelBuilder.ApplyConfiguration(new CertificateConfiguration());
+        modelBuilder.ApplyConfiguration(new CityConfiguration());
+        modelBuilder.ApplyConfiguration(new CountryConfiguration());
+        modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
+        modelBuilder.ApplyConfiguration(new DepartmentTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new DiagnosisConfiguration());
+        modelBuilder.ApplyConfiguration(new DoctorConfiguration());
+        modelBuilder.ApplyConfiguration(new DoctorSpecializationConfiguration());
+        modelBuilder.ApplyConfiguration(new DoctorWorkHistoryConfiguration());
+        modelBuilder.ApplyConfiguration(new DosageConfiguration());
+        modelBuilder.ApplyConfiguration(new GenderConfiguration());
+        modelBuilder.ApplyConfiguration(new HospitalConfiguration());
+        modelBuilder.ApplyConfiguration(new ManufacturerConfiguration());
+        modelBuilder.ApplyConfiguration(new MedicalBookConfiguration());
+        modelBuilder.ApplyConfiguration(new MedicalRecordConfiguration());
+        modelBuilder.ApplyConfiguration(new MedicalTestConfiguration());
+        modelBuilder.ApplyConfiguration(new MedicineConfiguration());
+        modelBuilder.ApplyConfiguration(new MedicineTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new PatientConfiguration());
+        modelBuilder.ApplyConfiguration(new ReferralPrescriptionConfiguration());
+        modelBuilder.ApplyConfiguration(new RegionConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
+        modelBuilder.ApplyConfiguration(new RoomConfiguration());
+        modelBuilder.ApplyConfiguration(new RoomTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new TestPrescriptionConfiguration());
+        modelBuilder.ApplyConfiguration(new TreatmentConfiguration());
+        modelBuilder.ApplyConfiguration(new TreatmentPrescriptionConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

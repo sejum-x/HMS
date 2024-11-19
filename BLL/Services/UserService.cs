@@ -5,7 +5,7 @@ using DAL.Interfaces;
 
 public interface IUserService
 {
-    Task<Guid> RegisterUserAsync(UserModel userModel);
+    Task<Guid> RegisterUserAsync(UserModel userModel, string roleName);
     Task<UserModel> GetUserByIdAsync(Guid userId);
     Task<bool> ValidateUserCredentialsAsync(string email, string password);
 }
@@ -21,14 +21,19 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
-    public async Task<Guid> RegisterUserAsync(UserModel userModel)
+    public async Task<Guid> RegisterUserAsync(UserModel userModel, string roleName)
     {
         if (await _unitOfWork.Users.AnyAsync(u => u.Email == userModel.Email))
             throw new ArgumentException("Email already in use.");
 
+        var role = await _unitOfWork.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+        if (role == null)
+            throw new KeyNotFoundException($"Role '{roleName}' not found.");
+
         var user = _mapper.Map<User>(userModel);
         user.CreatedAt = DateTime.UtcNow;
         user.HashPassword = HashPassword(userModel.Password);
+        user.RoleId = role.Id;
 
         await _unitOfWork.Users.AddAsync(user);
         await _unitOfWork.SaveChangesAsync();

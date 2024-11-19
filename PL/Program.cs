@@ -1,3 +1,7 @@
+using BLL.Mapper;
+using BLL.Services;
+using DAL.Data;
+using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +14,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<HMSDbContext>();
+
+builder.Services.AddDbContext<HMSDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("HMSDbContext"));
+});
+
+//builder.Services.AddDbContext<HMSDbContext>();
+
+builder.Services.AddAutoMapper(typeof(AutomapperProfile));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IGenderService, GenderService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 

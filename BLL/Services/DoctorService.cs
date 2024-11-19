@@ -8,6 +8,12 @@ public interface IDoctorService
 {
     Task RegisterDoctorAsync(DoctorModel doctorModel, Guid departmentId, Guid specializationId);
     Task<DoctorModel> GetDoctorByIdAsync(Guid doctorId);
+    Task<IEnumerable<DoctorModel>> GetAllDoctorsAsync();
+
+        // Методи для роботи з історією роботи лікаря
+    Task<IEnumerable<DoctorWorkHistoryModel>> GetDoctorWorkHistoryAsync(Guid doctorId);
+    Task<DoctorWorkHistoryModel?> GetCurrentWorkplaceAsync(Guid doctorId);
+    Task UpdateDoctorWorkplaceAsync(Guid doctorId, Guid departmentId, Guid specializationId);
 }
 
 public class DoctorService : IDoctorService
@@ -35,9 +41,8 @@ public class DoctorService : IDoctorService
             AvatarImage = doctorModel.AvatarImage,
             DateOfBirth = doctorModel.DateOfBirth,
             GenderId = doctorModel.GenderId,
-            RoleId = doctorModel.RoleId,
             Password = doctorModel.Password
-        });
+        }, "Doctor");
 
         var doctor = _mapper.Map<Doctor>(doctorModel);
         doctor.UserId = userId;
@@ -62,5 +67,52 @@ public class DoctorService : IDoctorService
         if (doctor == null) throw new KeyNotFoundException("Doctor not found.");
 
         return _mapper.Map<DoctorModel>(doctor);
+    }
+
+    public async Task<IEnumerable<DoctorModel>> GetAllDoctorsAsync()
+    {
+        var doctors = await _unitOfWork.Doctors.GetAllAsync();
+        return _mapper.Map<IEnumerable<DoctorModel>>(doctors);
+    }
+
+    // Робота з історією лікаря
+    public async Task<IEnumerable<DoctorWorkHistoryModel>> GetDoctorWorkHistoryAsync(Guid doctorId)
+    {
+        var workHistories = await _unitOfWork.DoctorWorkHistories
+            .FindAsync(dwh => dwh.DoctorId == doctorId);
+
+        return _mapper.Map<IEnumerable<DoctorWorkHistoryModel>>(workHistories);
+    }
+
+    public async Task<DoctorWorkHistoryModel?> GetCurrentWorkplaceAsync(Guid doctorId)
+    {
+        var currentWork = await _unitOfWork.DoctorWorkHistories
+            .FirstOrDefaultAsync(dwh => dwh.DoctorId == doctorId && dwh.EndDate == null);
+
+        return currentWork != null ? _mapper.Map<DoctorWorkHistoryModel>(currentWork) : null;
+    }
+
+    public async Task UpdateDoctorWorkplaceAsync(Guid doctorId, Guid departmentId, Guid specializationId)
+    {
+        // Завершити поточне місце роботи
+        var currentWork = await _unitOfWork.DoctorWorkHistories
+            .FirstOrDefaultAsync(dwh => dwh.DoctorId == doctorId && dwh.EndDate == null);
+
+        if (currentWork != null)
+        {
+            currentWork.EndDate = DateTime.UtcNow;
+        }
+
+        // Додати нове місце роботи
+        var newWorkHistory = new DoctorWorkHistory
+        {
+            DoctorId = doctorId,
+            DepartmentId = departmentId,
+            DoctorSpecializationId = specializationId,
+            StartDate = DateTime.UtcNow
+        };
+
+        await _unitOfWork.DoctorWorkHistories.AddAsync(newWorkHistory);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

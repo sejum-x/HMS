@@ -6,7 +6,7 @@ namespace DAL.Data;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _context;
+    private readonly HMSDbContext _context;
 
     // Репозиторії
     public IUserRepository Users { get; }
@@ -22,9 +22,12 @@ public class UnitOfWork : IUnitOfWork
     public IDoctorWorkHistoryRepository DoctorWorkHistories { get; }
     public IRoomRepository Rooms { get; }
     public IDepartmentRepository Departments { get; }
+    public IGenderRepository Genders { get; }
+    public IRoleRepository Roles { get; }
+
 
     // Конструктор
-    public UnitOfWork(DbContext context)
+    public UnitOfWork(HMSDbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -41,6 +44,8 @@ public class UnitOfWork : IUnitOfWork
         DoctorWorkHistories = new DoctorWorkHistoryRepository(context);
         Rooms = new RoomRepository(context);
         Departments = new DepartmentRepository(context);
+        Roles = new RoleRepository(context);
+        Genders = new GenderRepository(context);
     }
 
     public async Task<int> SaveChangesAsync()
@@ -48,7 +53,6 @@ public class UnitOfWork : IUnitOfWork
         return await _context.SaveChangesAsync();
     }
 
-    // Реалізація IDisposable для правильного очищення ресурсів
     public void Dispose()
     {
         _context.Dispose();

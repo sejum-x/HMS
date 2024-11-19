@@ -6,16 +6,20 @@ using Microsoft.Extensions.Options;
 
 public class HMSDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
+    /* private readonly IConfiguration _configuration;
 
-    public HMSDbContext(IConfiguration configuration)
+     public HMSDbContext(IConfiguration configuration)
+     {
+         _configuration = configuration;
+     }
+
+     protected  override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+     {
+         optionsBuilder.UseSqlServer(_configuration.GetConnectionString("HMSDbContext"));
+     }*/
+
+    public HMSDbContext(DbContextOptions<HMSDbContext> options) : base(options)
     {
-        _configuration = configuration;
-    }
-    
-    protected  override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("HMSDbContext"));
     }
 
     public DbSet<User> Users { get; set; }

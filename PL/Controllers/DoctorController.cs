@@ -50,5 +50,20 @@ namespace PL.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        // GET: api/Doctor
+        [HttpGet]
+        public async Task<IActionResult> GetAllDoctors()
+        {
+            try
+            {
+                var doctors = await _doctorService.GetAllDoctorsAsync();
+                return Ok(doctors);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

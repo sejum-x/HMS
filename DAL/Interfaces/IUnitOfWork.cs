@@ -17,6 +17,8 @@ public interface IUnitOfWork : IDisposable
     IDoctorWorkHistoryRepository DoctorWorkHistories { get; }
     IRoomRepository Rooms { get; }
     IDepartmentRepository Departments { get; }
+    IGenderRepository Genders { get; }
+    IRoleRepository Roles { get; }
 
     Task<int> SaveChangesAsync();
 }

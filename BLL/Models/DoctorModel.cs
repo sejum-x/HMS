@@ -15,7 +15,6 @@ namespace Business.Models
         public string AvatarImage { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Guid GenderId { get; set; }
-        public Guid RoleId { get; set; }
 
         public ICollection<Guid> MedicalRecordIds { get; set; } = new List<Guid>();
         public ICollection<Guid> WorkHistoryIds { get; set; } = new List<Guid>();

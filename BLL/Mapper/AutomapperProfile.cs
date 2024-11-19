@@ -25,7 +25,6 @@ namespace BLL.Mapper
                 .ForMember(dest => dest.AvatarImage, opt => opt.MapFrom(src => src.User.AvatarImage))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.User.DateOfBirth))
                 .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.User.GenderId)) // Мапінг для GenderId
-                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.User.RoleId)) // Мапінг для GenderId
                 .ReverseMap();
 
             CreateMap<Patient, PatientModel>()
@@ -37,8 +36,7 @@ namespace BLL.Mapper
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
                 .ForMember(dest => dest.AvatarImage, opt => opt.MapFrom(src => src.User.AvatarImage))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.User.DateOfBirth))
-                .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.User.GenderId)) // Мапінг для GenderId
-                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.User.RoleId)) // Мапінг для GenderId
+                .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.User.GenderId)) 
                 .ReverseMap();
 
             // MedicalBook -> MedicalBookModel
@@ -131,6 +129,8 @@ namespace BLL.Mapper
             CreateMap<Hospital, HospitalModel>().ReverseMap();
             CreateMap<DepartmentType, DepartmentTypeModel>().ReverseMap();
             CreateMap<RoomType, RoomTypeModel>().ReverseMap();
+            CreateMap<Role, RoleModel>().ReverseMap();
+            CreateMap<Gender, GenderModel>().ReverseMap();
 
         }
     }

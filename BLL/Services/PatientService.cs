@@ -7,6 +7,7 @@ public interface IPatientService
 {
     Task RegisterPatientAsync(PatientModel patientModel);
     Task<PatientModel> GetPatientByIdAsync(Guid patientId);
+    Task<IEnumerable<PatientModel>> GetAllPatientsAsync();
 }
 
 public class PatientService : IPatientService
@@ -34,9 +35,8 @@ public class PatientService : IPatientService
             AvatarImage = patientModel.AvatarImage,
             DateOfBirth = patientModel.DateOfBirth,
             GenderId = patientModel.GenderId,
-            RoleId = patientModel.RoleId,
             Password = patientModel.Password
-        });
+        }, "Patient");
 
         var patient = _mapper.Map<Patient>(patientModel);
         patient.UserId = userId;
@@ -54,11 +54,18 @@ public class PatientService : IPatientService
         await _unitOfWork.SaveChangesAsync();
     }
 
+
     public async Task<PatientModel> GetPatientByIdAsync(Guid patientId)
     {
         var patient = await _unitOfWork.Patients.GetByIdAsync(patientId);
         if (patient == null) throw new KeyNotFoundException("Patient not found.");
 
         return _mapper.Map<PatientModel>(patient);
+    }
+
+    public async Task<IEnumerable<PatientModel>> GetAllPatientsAsync()
+    {
+        var patients = await _unitOfWork.Patients.GetAllAsync();
+        return _mapper.Map<IEnumerable<PatientModel>>(patients);
     }
 }

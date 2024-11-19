@@ -17,19 +17,19 @@
 
     public abstract class BaseModel
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
     }
 
     public class RoleModel : BaseModel
     {
         public string Name { get; set; }
-        public ICollection<Guid> Users { get; set; }
+        public ICollection<Guid>? Users { get; set; }
     }
 
     public class GenderModel : BaseModel
     {
         public string Name { get; set; }
-        public ICollection<Guid> Users { get; set; }
+        public ICollection<Guid>? Users { get; set; }
     }
 
     public class PatientModel : BaseModel
@@ -44,7 +44,6 @@
         public string AvatarImage { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Guid GenderId { get; set; }
-        public Guid RoleId { get; set; }
 
         public Guid MedicalBookId { get; set; }
     }

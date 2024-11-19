@@ -23,6 +23,12 @@ namespace DAL.Repositories
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
             => await _dbSet.Where(predicate).ToListAsync();
 
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate) =>
+        await _dbSet.AnyAsync(predicate);
+
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        => await _dbSet.FirstOrDefaultAsync(predicate);
+
         public async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
 
         public void Update(TEntity entity) => _dbSet.Update(entity);

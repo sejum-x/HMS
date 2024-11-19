@@ -3,16 +3,28 @@ using DAL.Entities;
 
 namespace Business.Models
 {
-    public class Doctor : BaseModel
+    public class DoctorModel : BaseModel
     {
         public Guid UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string PhoneNumber { get; set; }
+        public string AvatarImage { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public Guid GenderId { get; set; }
+        public Guid RoleId { get; set; }
+
         public ICollection<Guid> MedicalRecordIds { get; set; } = new List<Guid>();
         public ICollection<Guid> WorkHistoryIds { get; set; } = new List<Guid>();
         public ICollection<Guid> ReferralPrescriptionIds { get; set; } = new List<Guid>();
         public ICollection<Guid> AwardIds { get; set; } = new List<Guid>();
         public ICollection<Guid> CertificateIds { get; set; } = new List<Guid>();
     }
-    public class DoctorWorkHistory : BaseModel
+
+    public class DoctorWorkHistoryModel : BaseModel
     {
         public Guid DoctorId { get; set; }
         public Guid DepartmentId { get; set; }
@@ -22,7 +34,7 @@ namespace Business.Models
         public DateTime? EndDate { get; set; }
     }
 
-    public class Award : BaseModel
+    public class AwardModel : BaseModel
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -30,7 +42,7 @@ namespace Business.Models
         public Guid DoctorId { get; set; }
     }
 
-    public class Certificate : BaseModel
+    public class CertificateModel : BaseModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -38,7 +50,7 @@ namespace Business.Models
         public Guid DoctorId { get; set; }
     }
 
-    public class DoctorSpecialization : BaseModel
+    public class DoctorSpecializationModel : BaseModel
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -47,7 +59,7 @@ namespace Business.Models
         public ICollection<Guid> DoctorWorkHistoryIds { get; set; } = new List<Guid>();
     }
 
-    public class Department : BaseModel
+    public class DepartmentModel : BaseModel
     {
         public string Name { get; set; }
         public Guid HospitalId { get; set; }
@@ -58,7 +70,7 @@ namespace Business.Models
         public ICollection<Guid> WorkHistoryIds { get; set; } = new List<Guid>();
     }
 
-    public class Hospital : BaseModel
+    public class HospitalModel : BaseModel
     {
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
@@ -68,7 +80,7 @@ namespace Business.Models
         public ICollection<Guid> DepartmentIds { get; set; } = new List<Guid>();
     }
 
-    public class DepartmentType : BaseModel
+    public class DepartmentTypeModel : BaseModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -77,7 +89,7 @@ namespace Business.Models
         public ICollection<Guid> DepartmentIds { get; set; } = new List<Guid>();
     }
 
-    public class Room : BaseModel
+    public class RoomModel : BaseModel
     {
         public int RoomNumber { get; set; }
         public Guid DepartmentId { get; set; }
@@ -87,19 +99,18 @@ namespace Business.Models
         public ICollection<Guid> MedicalRecordIds { get; set; } = new List<Guid>();
     }
 
-    public class RoomType : BaseModel
+    public class RoomTypeModel : BaseModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
 
-        // Колекції тільки ID
         public ICollection<Guid> RoomIds { get; set; } = new List<Guid>();
     }
 
     public class CityModel : BaseModel
         {
-            public string Name { get; set; } // Назва міста
-            public Guid RegionId { get; set; } // Ідентифікатор регіону
+            public string Name { get; set; } 
+            public Guid RegionId { get; set; } 
 
             public ICollection<Guid> Addresses { get; set; } // Список адрес у місті
         }
@@ -126,6 +137,5 @@ namespace Business.Models
 
             public ICollection<Guid> Regions { get; set; } 
         }
-
 
 }

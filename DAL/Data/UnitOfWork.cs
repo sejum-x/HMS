@@ -28,7 +28,6 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
 
-        // Ініціалізація репозиторіїв
         Users = new UserRepository(context);
         Doctors = new DoctorRepository(context);
         Patients = new PatientRepository(context);
@@ -44,7 +43,6 @@ public class UnitOfWork : IUnitOfWork
         Departments = new DepartmentRepository(context);
     }
 
-    // Метод для збереження змін в базі даних
     public async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();

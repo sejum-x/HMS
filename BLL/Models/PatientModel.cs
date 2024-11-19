@@ -6,6 +6,7 @@
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string AvatarImage { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -22,16 +23,29 @@
     public class RoleModel : BaseModel
     {
         public string Name { get; set; }
+        public ICollection<Guid> Users { get; set; }
     }
 
     public class GenderModel : BaseModel
     {
         public string Name { get; set; }
+        public ICollection<Guid> Users { get; set; }
     }
 
     public class PatientModel : BaseModel
     {
         public Guid UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string PhoneNumber { get; set; }
+        public string AvatarImage { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public Guid GenderId { get; set; }
+        public Guid RoleId { get; set; }
+
         public Guid MedicalBookId { get; set; }
     }
 
@@ -59,6 +73,7 @@
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public ICollection<Guid> MedicalRecords { get; set; }
     }
 
     public class TreatmentPrescriptionModel : BaseModel
@@ -86,12 +101,14 @@
         public Guid ManufacturerId { get; set; }
         public Guid DosageId { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public ICollection<Guid> Treatments { get; set; }
     }
 
     public class MedicineTypeModel : BaseModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public ICollection<Guid> Medicines { get; set; }
     }
 
     public class ManufacturerModel : BaseModel
@@ -99,12 +116,14 @@
         public string Name { get; set; }
         public string Country { get; set; }
         public string Email { get; set; }
+        public ICollection<Guid> Medicines { get; set; }
     }
 
     public class DosageModel : BaseModel
     {
         public string DosageAmount { get; set; }
         public string UsageInstructions { get; set; }
+        public ICollection<Guid> Medicines { get; set; }
     }
 
     public class ReferralPrescriptionModel : BaseModel

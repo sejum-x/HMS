@@ -9,7 +9,9 @@ namespace DAL.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> GetByIdAsync(Guid id);
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
         Task AddAsync(TEntity entity);
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         void Update(TEntity entity);
         void Remove(TEntity entity);
         Task DeleteByIdAsync(Guid id);

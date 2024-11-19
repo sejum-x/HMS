@@ -25,6 +25,11 @@ public class UnitOfWork : IUnitOfWork
     public IGenderRepository Genders { get; }
     public IRoleRepository Roles { get; }
 
+    public IAddressRepository Addresses { get; }
+    public ICityRepository Cities { get; }
+    public IRegionRepository Regions { get; }
+    public ICountryRepository Countries { get; }
+
 
     // Конструктор
     public UnitOfWork(HMSDbContext context)
@@ -46,6 +51,10 @@ public class UnitOfWork : IUnitOfWork
         Departments = new DepartmentRepository(context);
         Roles = new RoleRepository(context);
         Genders = new GenderRepository(context);
+        Addresses = new AddressRepository(context);
+        Cities = new CityRepository(context);
+        Regions = new RegionRepository(context);
+        Countries = new CountryRepository(context);
     }
 
     public async Task<int> SaveChangesAsync()

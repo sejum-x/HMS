@@ -20,5 +20,11 @@ public interface IUnitOfWork : IDisposable
     IGenderRepository Genders { get; }
     IRoleRepository Roles { get; }
 
+    IAddressRepository Addresses { get; }
+    ICityRepository Cities { get; }
+    IRegionRepository Regions { get; }
+    ICountryRepository Countries { get; }
+
+
     Task<int> SaveChangesAsync();
 }

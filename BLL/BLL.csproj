@@ -8,12 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Intrefaces\" />
+    <Folder Include="Intrefaces\Auth\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>

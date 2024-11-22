@@ -15,6 +15,10 @@ namespace DAL.Repositories
         void Update(TEntity entity);
         void Remove(TEntity entity);
         Task DeleteByIdAsync(Guid id);
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
+
+        Task<bool> ExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class;
+
     }
 
     public interface IUserRepository : IRepository<User>

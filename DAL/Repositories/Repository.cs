@@ -43,5 +43,17 @@ namespace DAL.Repositories
                 Remove(entity);
             }
         }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _context.Set<TEntity>().Where(predicate).ToListAsync();
+        }
+
+        public async Task<bool> ExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
+        {
+            return await _context.Set<TEntity>().AnyAsync(predicate);
+        }
+
+
     }
 }

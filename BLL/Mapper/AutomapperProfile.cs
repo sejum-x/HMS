@@ -60,10 +60,10 @@ namespace BLL.Mapper
                 .ReverseMap();
 
             // Address -> AddressModel
-            CreateMap<Address, AddressModel>()
+            /*CreateMap<Address, AddressModel>()
                 .ForMember(am => am.CityId, opt => opt.MapFrom(src => src.CityId))
                 .ForMember(am => am.Hospitals, opt => opt.MapFrom(src => src.Hospitals.Select(h => h.Id)))
-                .ReverseMap();
+                .ReverseMap();*/
 
             // Region -> RegionModel
             CreateMap<Region, RegionModel>()

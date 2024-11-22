@@ -1,5 +1,6 @@
 ﻿using BLL.Models;
 using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
@@ -15,6 +16,7 @@ namespace PL.Controllers
             _genderService = genderService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllGenders()
         {
@@ -22,7 +24,8 @@ namespace PL.Controllers
             return Ok(genders);
         }
 
-        [HttpPost]
+        [Authorize]
+        [HttpPost] 
         public async Task<IActionResult> AddGender([FromBody] GenderModel genderModel)
         {
             await _genderService.AddGenderAsync(genderModel);

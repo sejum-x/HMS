@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.Intrefaces.Auth;
 using BLL.Models;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -53,6 +54,7 @@ public class PatientService : IPatientService
 
         await _unitOfWork.SaveChangesAsync();
     }
+
 
 
     public async Task<PatientModel> GetPatientByIdAsync(Guid patientId)

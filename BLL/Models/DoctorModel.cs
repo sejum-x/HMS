@@ -16,11 +16,11 @@ namespace Business.Models
         public DateTime DateOfBirth { get; set; }
         public Guid GenderId { get; set; }
 
-        public ICollection<Guid> MedicalRecordIds { get; set; } = new List<Guid>();
-        public ICollection<Guid> WorkHistoryIds { get; set; } = new List<Guid>();
-        public ICollection<Guid> ReferralPrescriptionIds { get; set; } = new List<Guid>();
-        public ICollection<Guid> AwardIds { get; set; } = new List<Guid>();
-        public ICollection<Guid> CertificateIds { get; set; } = new List<Guid>();
+        public ICollection<Guid>? MedicalRecordIds { get; set; } = new List<Guid>();
+        public ICollection<Guid>? WorkHistoryIds { get; set; } = new List<Guid>();
+        public ICollection<Guid>? ReferralPrescriptionIds { get; set; } = new List<Guid>();
+        public ICollection<Guid>? AwardIds { get; set; } = new List<Guid>();
+        public ICollection<Guid>? CertificateIds { get; set; } = new List<Guid>();
     }
 
     public class DoctorWorkHistoryModel : BaseModel
@@ -114,14 +114,14 @@ namespace Business.Models
             public ICollection<Guid> Addresses { get; set; } // Список адрес у місті
         }
 
-    public class AddressModel : BaseModel
+    /*public class AddressModel : BaseModel
         {
             public string Street { get; set; } 
             public string BuildingNumber { get; set; } 
             public Guid CityId { get; set; } // Ідентифікатор міста
 
             public ICollection<Guid> Hospitals { get; set; }
-        }
+        }*/
     
     public class RegionModel : BaseModel
         {
@@ -137,4 +137,20 @@ namespace Business.Models
             public ICollection<Guid> Regions { get; set; } 
         }
 
+    public class DoctorWorkplaceDetailModel
+    {
+        public string DepartmentName { get; set; }
+        public string SpecializationName { get; set; }
+        public string HospitalName { get; set; }
+        public string HospitalPhoneNumber { get; set; }
+        public AddressModel Address { get; set; }
+    }
+
+    public class AddressModel
+    {
+        public string City { get; set; }
+        public string Region { get; set; }
+        public string Street { get; set; }
+        public string BuildingNumber { get; set; }
+    }
 }

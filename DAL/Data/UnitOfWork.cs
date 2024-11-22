@@ -24,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     public IDepartmentRepository Departments { get; }
     public IGenderRepository Genders { get; }
     public IRoleRepository Roles { get; }
+    public ITestPrescriptionRepository TestPrescriptions { get; }
 
     public IAddressRepository Addresses { get; }
     public ICityRepository Cities { get; }
@@ -55,6 +56,7 @@ public class UnitOfWork : IUnitOfWork
         Cities = new CityRepository(context);
         Regions = new RegionRepository(context);
         Countries = new CountryRepository(context);
+        TestPrescriptions = new TestPrescriptionRepository(context);
     }
 
     public async Task<int> SaveChangesAsync()

@@ -1,4 +1,5 @@
-﻿using DAL.Repositories;
+﻿using DAL.Entities;
+using DAL.Repositories;
 
 namespace DAL.Interfaces;
 
@@ -24,7 +25,7 @@ public interface IUnitOfWork : IDisposable
     ICityRepository Cities { get; }
     IRegionRepository Regions { get; }
     ICountryRepository Countries { get; }
-
+    ITestPrescriptionRepository TestPrescriptions { get; }
 
     Task<int> SaveChangesAsync();
 }

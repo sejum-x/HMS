@@ -6,7 +6,7 @@ using DAL.Interfaces;
 
 public interface IDoctorService
 {
-    Task RegisterDoctorAsync(DoctorModel doctorModel, Guid departmentId, Guid specializationId);
+    Task RegisterDoctorAsync(DoctorModel doctorModel);
     Task<DoctorModel> GetDoctorByIdAsync(Guid doctorId);
     Task<IEnumerable<DoctorModel>> GetAllDoctorsAsync();
 
@@ -14,6 +14,9 @@ public interface IDoctorService
     Task<IEnumerable<DoctorWorkHistoryModel>> GetDoctorWorkHistoryAsync(Guid doctorId);
     Task<DoctorWorkHistoryModel?> GetCurrentWorkplaceAsync(Guid doctorId);
     Task UpdateDoctorWorkplaceAsync(Guid doctorId, Guid departmentId, Guid specializationId);
+
+    Task<DoctorWorkplaceDetailModel?> GetDoctorWorkplaceDetailsAsync(Guid doctorId);
+
 }
 
 public class DoctorService : IDoctorService
@@ -29,8 +32,9 @@ public class DoctorService : IDoctorService
         _mapper = mapper;
     }
 
-    public async Task RegisterDoctorAsync(DoctorModel doctorModel, Guid departmentId, Guid specializationId)
+    public async Task RegisterDoctorAsync(DoctorModel doctorModel)
     {
+        // 1. Реєстрація користувача
         var userId = await _userService.RegisterUserAsync(new UserModel
         {
             FirstName = doctorModel.FirstName,
@@ -48,15 +52,6 @@ public class DoctorService : IDoctorService
         doctor.UserId = userId;
 
         await _unitOfWork.Doctors.AddAsync(doctor);
-
-        var workHistory = new DoctorWorkHistory
-        {
-            DoctorId = doctor.Id,
-            DepartmentId = departmentId,
-            DoctorSpecializationId = specializationId,
-            StartDate = DateTime.UtcNow
-        };
-        await _unitOfWork.DoctorWorkHistories.AddAsync(workHistory);
 
         await _unitOfWork.SaveChangesAsync();
     }
@@ -94,7 +89,6 @@ public class DoctorService : IDoctorService
 
     public async Task UpdateDoctorWorkplaceAsync(Guid doctorId, Guid departmentId, Guid specializationId)
     {
-        // Завершити поточне місце роботи
         var currentWork = await _unitOfWork.DoctorWorkHistories
             .FirstOrDefaultAsync(dwh => dwh.DoctorId == doctorId && dwh.EndDate == null);
 
@@ -103,7 +97,6 @@ public class DoctorService : IDoctorService
             currentWork.EndDate = DateTime.UtcNow;
         }
 
-        // Додати нове місце роботи
         var newWorkHistory = new DoctorWorkHistory
         {
             DoctorId = doctorId,
@@ -115,4 +108,37 @@ public class DoctorService : IDoctorService
         await _unitOfWork.DoctorWorkHistories.AddAsync(newWorkHistory);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task<DoctorWorkplaceDetailModel?> GetDoctorWorkplaceDetailsAsync(Guid doctorId)
+    {
+        var currentWork = await _unitOfWork.DoctorWorkHistories
+            .FirstOrDefaultAsync(dwh => dwh.DoctorId == doctorId && dwh.EndDate == null);
+
+        if (currentWork == null) return null;
+
+        var department = await _unitOfWork.Departments
+            .GetWithHospitalAndRoomsAsync(currentWork.DepartmentId);
+
+        if (department == null) return null;
+
+        var hospital = department.Hospital;
+        var address = hospital.Address;
+        var city = address.City;
+
+        return new DoctorWorkplaceDetailModel
+        {
+            DepartmentName = department.Name,
+            SpecializationName = currentWork.DoctorSpecialization.Title,
+            HospitalName = hospital.Name,
+            HospitalPhoneNumber = hospital.PhoneNumber,
+            Address = new AddressModel
+            {
+                City = city.Name,
+                Region = city.Region.Name,
+                Street = address.Street,
+                BuildingNumber = address.BuildingNumber
+            }
+        };
+    }
+
 }

@@ -1,4 +1,4 @@
-﻿using Business.Models;
+﻿/*using Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
@@ -147,3 +147,4 @@ namespace PL.Controllers
         public Guid SpecializationId { get; set; }
     }
 }
+*/

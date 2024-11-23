@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using BLL.Intrefaces.Auth;
 using BLL.Models;
 using DAL.Entities;
@@ -68,12 +68,4 @@ public class UserService : IUserService
         var token = _jwtProvider.GenerateToken(user.Id, user.Role.Name, user.Email);
         return token;
     }
-
-    public async Task<UserModel> GetUserByIdAsync(Guid userId)
-    {
-        var user = await _unitOfWork.Users.GetByIdAsync(userId);
-        if (user == null) throw new KeyNotFoundException("User not found.");
-
-        return _mapper.Map<UserModel>(user);
-    }
-}
+}*/

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using BLL.Models;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -54,4 +54,4 @@ public class GenderService : IGenderService
         await _unitOfWork.Genders.DeleteByIdAsync(genderId);
         await _unitOfWork.SaveChangesAsync();
     }
-}
+}*/

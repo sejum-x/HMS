@@ -1,16 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using BLL.Intrefaces.Auth;
+using Business.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace PL.Controllers
+namespace WebAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public AuthController(IUserService userService)
+        public AuthController(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
+        }
+
+        [HttpPost("register/doctor")]
+        public async Task<IActionResult> RegisterDoctor([FromBody] RegisterDoctorRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var token = await _authService.RegisterDoctorAsync(request.Doctor, request.Password);
+                return Ok(new { Token = token });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("register/patient")]
+        public async Task<IActionResult> RegisterPatient([FromBody] RegisterPatientRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var token = await _authService.RegisterPatientAsync(request.Patient, request.Password);
+                return Ok(new { Token = token });
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPost("login")]
@@ -23,9 +69,8 @@ namespace PL.Controllers
 
             try
             {
-                var token = await _userService.LoginUserAsync(loginRequest.Email, loginRequest.Password);
-                Response.Cookies.Append("tasty-cookies", token);
-
+                var token = await _authService.LoginUserAsync(loginRequest.Email, loginRequest.Password);
+                Response.Cookies.Append("auth_token", token, new CookieOptions { HttpOnly = true, Secure = true });
                 return Ok(new { Token = token });
             }
             catch (UnauthorizedAccessException)
@@ -39,9 +84,30 @@ namespace PL.Controllers
         }
     }
 
+    public class RegisterDoctorRequest
+    {
+        [Required]
+        public DoctorDTO Doctor { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
+    public class RegisterPatientRequest
+    {
+        [Required]
+        public PatientDTO Patient { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
     public class LoginRequest
     {
+        [Required]
         public string Email { get; set; }
+
+        [Required]
         public string Password { get; set; }
     }
 }

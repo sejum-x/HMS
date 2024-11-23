@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using BLL.Intrefaces.Auth;
 using BLL.Models;
 using DAL.Entities;
@@ -70,4 +70,4 @@ public class PatientService : IPatientService
         var patients = await _unitOfWork.Patients.GetAllAsync();
         return _mapper.Map<IEnumerable<PatientModel>>(patients);
     }
-}
+}*/

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using BLL.Models;
 using Business.Models;
 using DAL.Entities;
@@ -239,3 +239,4 @@ public class MedicalBookService : IMedicalBookService
     }
 }
 
+*/

@@ -1,6 +1,5 @@
 using BLL.Intrefaces.Auth;
 using BLL.Mapper;
-using BLL.Services;
 using DAL.Data;
 using DAL.Interfaces;
 using Infrastructure;
@@ -33,11 +32,12 @@ builder.Services.AddDbContext<HMSDbContext>(options =>
 builder.Services.AddAutoMapper(typeof(AutomapperProfile));
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IGenderService, GenderService>();
+/*builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IRoleService, RoleService>();*/
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();

@@ -25,6 +25,7 @@ namespace DAL.Repositories
     {
         Task<User?> GetByEmailAsync(string email);
         Task<IEnumerable<User>> GetUsersWithRoleAsync(Guid roleId);
+        Task<User> GetUserWithRoleAsync(string email);
     }
 
     public interface IDoctorRepository : IRepository<Doctor>
